@@ -8,7 +8,7 @@ import { createQueryBuilder, Repository } from 'typeorm';
 import { MedidoresTemp } from './entities/medidores_temp.entity';
 import { TransaccionService } from 'src/common/transaction/transaccion.service';
 import { Tipo_Transaccion } from 'src/common/enums/tipo_Transaccion.enum';
-import moment from 'moment-timezone';
+import * as moment from 'moment-timezone';
 
 interface Medidor {
   Direccion_medidor: string;
