@@ -46,8 +46,18 @@ export class MedidoresTempService {
     const identificador = (medidor.id).toString();
 
     const resultado: any = await this.transaccionService.transaction(Tipo_Transaccion.Actualizar_Con_Parametros, MedidoresTemp, imagen, 'imagen', identificador);
-    medidor.imagen = imagen;
-    //return await this.medidoresRepository.save(medidor);
+   
+    if (resultado.mensaje === 'Éxito') {
+      return {
+        status: 201,
+        message: 'Se ha actualizado la imagen del medidor'
+      }
+    } else {
+      return {
+        status: 400,
+        message: 'Ha ocurrido un error, intentelo de nuevo'
+      }
+    }
 
   }
 
@@ -66,9 +76,6 @@ export class MedidoresTempService {
 
   const fecha = `${day}/${month}/${year}`;
 
-  console.log(month, "1", day, "2", year, "3");
-  console.log(fecha, 3);
-
     const correo = user.identificador;
     let medidor = await this.medidoresRepository
     .createQueryBuilder('medidores_temp')
@@ -76,11 +83,6 @@ export class MedidoresTempService {
     .andWhere('(medidores_temp.status) = (:status)', { status: 'Pendiente' })
     .andWhere('(medidores_temp.fecha) = (:fecha)', { fecha })
     .getMany();
-
-    console.log(medidor, 1);
-    console.log(correo, 2);
-    console.log(fecha, 3);
-    console.log('aqui', 4);
 
     return medidor;
   }
@@ -94,9 +96,6 @@ export class MedidoresTempService {
     .where('LOWER(medidores_temp.usuario_correo) = LOWER(:correo)', { correo })
     .andWhere('(medidores_temp.status) = (:status)', { status: 'Revisado' })
     .getMany();
-
-    console.log(medidor, 1, "2");
-    console.log(correo, 2, "2");
 
     return medidor;
   }
@@ -126,7 +125,6 @@ export class MedidoresTempService {
     let identificador = (medidor.id).toString();
 
     const resultado: any = await this.transaccionService.transaction(Tipo_Transaccion.Actualizar_Con_Parametros, MedidoresTemp, estado, 'status', identificador);
-    console.log(resultado, 6);
     return {
       message: 'Se ha actualizado el estado del medidor'
     }

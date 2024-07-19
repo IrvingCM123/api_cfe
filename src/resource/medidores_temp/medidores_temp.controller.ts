@@ -54,8 +54,6 @@ export class MedidoresTempController {
       servicio: createMedidoresTempDto.servicio,
       sello: createMedidoresTempDto.sello
     }
-
-    console.log(medidor, "medidor");
   
     return this.medidoresTempService.create(medidor, user);
   }
@@ -83,8 +81,6 @@ export class MedidoresTempController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMedidoresTempDto: UpdateMedidoresTempDto, @ActiveUser() user: User_Interface) {
-    console.log(id, 1);
-    console.log(updateMedidoresTempDto, "2");
     const medidor: Medidor_Actualizar = {
       status: 'Revisado'
     }
@@ -93,7 +89,6 @@ export class MedidoresTempController {
 
   @Delete(':id')
   remove(@Param('id') id: string, @ActiveUser() user: User_Interface) {
-    console.log(id);
     return this.medidoresTempService.remove(id, user);
   }
 }
