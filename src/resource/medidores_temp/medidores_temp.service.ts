@@ -8,6 +8,7 @@ import { createQueryBuilder, Repository } from 'typeorm';
 import { MedidoresTemp } from './entities/medidores_temp.entity';
 import { TransaccionService } from 'src/common/transaction/transaccion.service';
 import { Tipo_Transaccion } from 'src/common/enums/tipo_Transaccion.enum';
+import moment from 'moment-timezone';
 
 interface Medidor {
   Direccion_medidor: string;
@@ -53,11 +54,11 @@ export class MedidoresTempService {
   async findAll(user: User_Interface) {
     validateAll(user);
     
-    let date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    const fecha = day + '/' + month + '/' + year;
+    const date = moment.tz("America/Mexico_City");
+    const day = date.date();
+    const month = date.month() + 1;
+    const year = date.year();
+    const fecha = `${day}/${month}/${year}`;
 
     const correo = user.identificador;
     let medidor = await this.medidoresRepository
