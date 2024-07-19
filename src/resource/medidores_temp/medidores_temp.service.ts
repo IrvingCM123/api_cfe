@@ -59,6 +59,7 @@ export class MedidoresTempService {
     });
 
     const [month, day, year] = nDate.split('/'); // Asumiendo el formato MM/DD/YYYY
+    console.log(month, "1", day, "2", year, "3");
     const fecha = `${day}/${month}/${year}`;
 
     const correo = user.identificador;
