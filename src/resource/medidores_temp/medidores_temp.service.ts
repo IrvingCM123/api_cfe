@@ -67,6 +67,11 @@ export class MedidoresTempService {
     .andWhere('(medidores_temp.fecha) = (:fecha)', { fecha })
     .getMany();
 
+    console.log(medidor, 1);
+    console.log(correo, 2);
+    console.log(fecha, 3);
+    console.log('aqui', 4);
+
     return medidor;
   }
 

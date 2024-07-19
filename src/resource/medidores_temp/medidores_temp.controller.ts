@@ -55,6 +55,8 @@ export class MedidoresTempController {
       sello: createMedidoresTempDto.sello
     }
 
+    console.log(medidor, "medidor");
+  
     return this.medidoresTempService.create(medidor, user);
   }
 
