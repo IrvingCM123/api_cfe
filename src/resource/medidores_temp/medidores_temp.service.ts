@@ -58,9 +58,16 @@ export class MedidoresTempService {
       timeZone: 'America/Mexico_City'
     });
 
-    const [month, day, year] = nDate.split('/'); // Asumiendo el formato MM/DD/YYYY
-    console.log(month, "1", day, "2", year, "3");
-    const fecha = `${day}/${month}/${year}`;
+  // Separa la fecha y la hora
+  const [datePart, timePart] = nDate.split(', ');
+
+  // Separa el mes, día y año de la parte de la fecha
+  const [month, day, year] = datePart.split('/');
+
+  const fecha = `${day}/${month}/${year}`;
+
+  console.log(month, "1", day, "2", year, "3");
+  console.log(fecha, 3);
 
     const correo = user.identificador;
     let medidor = await this.medidoresRepository
