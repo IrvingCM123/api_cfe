@@ -32,7 +32,7 @@ const name_database = secret.DB_NAME;
       autoLoadEntities: true,
       synchronize: true,
       extra: {
-        ssl: false,
+        ssl: true,
         sslmode: 'require',
       },
     }),

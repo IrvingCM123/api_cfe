@@ -55,7 +55,7 @@ export function email_template(
         <div class="container">
 
         <div class="image-container">
-        <img src="https://firebasestorage.googleapis.com/v0/b/heartmodel-caedd.appspot.com/o/Captura%20de%20pantalla%202024-03-26%20220537.png?alt=media&token=1b3504aa-9a28-402b-bbed-c8b68ce6c8ef" alt="Imagen 1">
+        <img src="https://firebasestorage.googleapis.com/v0/b/viajes-5c870.appspot.com/o/CFE.jpg?alt=media&token=0720f51b-227b-4a8a-acd9-c5b85e45c905" alt="Imagen 1">
         </div>
 
           <div class="header">

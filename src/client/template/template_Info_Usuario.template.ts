@@ -58,7 +58,7 @@ export function template_Email_Codigos(
         <div class="container">
 
         <div class="image-container">
-        <img src="https://firebasestorage.googleapis.com/v0/b/viajes-5c870.appspot.com/o/plane-aircraft-travel-logo-design-template-vector.jpg?alt=media&token=e4ec1e93-f5e8-45de-924b-8c3b5152cd86" alt="Imagen 1">
+        <img src="https://firebasestorage.googleapis.com/v0/b/viajes-5c870.appspot.com/o/CFE.jpg?alt=media&token=0720f51b-227b-4a8a-acd9-c5b85e45c905" alt="Imagen 1">
         </div>
 
           <div class="header">
@@ -74,7 +74,7 @@ export function template_Email_Codigos(
         </div>
           <div class="info">
             <p>Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nosotros. ¡Estamos aquí para ayudarle!</p>
-            <p>Mexicana de aviación</p>
+            <p></p>
           </div>
         </div>
       </body>
