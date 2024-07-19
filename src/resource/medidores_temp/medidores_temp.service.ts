@@ -85,6 +85,9 @@ export class MedidoresTempService {
     .andWhere('(medidores_temp.status) = (:status)', { status: 'Revisado' })
     .getMany();
 
+    console.log(medidor, 1, "2");
+    console.log(correo, 2, "2");
+
     return medidor;
   }
 
