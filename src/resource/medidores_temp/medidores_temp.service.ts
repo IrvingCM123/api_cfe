@@ -54,10 +54,11 @@ export class MedidoresTempService {
   async findAll(user: User_Interface) {
     validateAll(user);
     
-    const date = moment.tz("America/Mexico_City");
-    const day = date.date();
-    const month = date.month() + 1;
-    const year = date.year();
+    const nDate = new Date().toLocaleString('en-US', {
+      timeZone: 'America/Mexico_City'
+    });
+
+    const [month, day, year] = nDate.split('/'); // Asumiendo el formato MM/DD/YYYY
     const fecha = `${day}/${month}/${year}`;
 
     const correo = user.identificador;
