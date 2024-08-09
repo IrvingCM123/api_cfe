@@ -9,6 +9,8 @@ import { CuentasModule } from './resource/cuentas/cuentas.module';
 import { UsuarioModule } from './resource/usuario/usuario.module';
 import { ClientModule } from './client/client.module';
 import { MedidoresTempModule } from './resource/medidores_temp/medidores_temp.module';
+import { MedidorModule } from './resource/medidor/medidor.module';
+import { SellosModule } from './resource/sellos/sellos.module';
 
 const dotenv = require('dotenv').config();
 const secret = dotenv.parsed;
@@ -40,6 +42,8 @@ const name_database = secret.DB_NAME;
     CuentasModule,
     UsuarioModule,
     ClientModule,
+    MedidorModule,
+    SellosModule,
     MedidoresTempModule,
   ],
   controllers: [AppController],

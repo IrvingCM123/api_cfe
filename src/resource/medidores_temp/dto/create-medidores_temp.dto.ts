@@ -4,33 +4,33 @@ export class CreateMedidoresTempDto {
 
     @IsNotEmpty()
     @IsString()
-    Direccion_medidor: string;
+    numero_medidor: string;
 
     @IsNotEmpty()
     @IsString()
-    Numero_Serie: string;
+    tipo_medidor: string;
 
     @IsNotEmpty()
     @IsString()
-    Categoria: string;
+    numero_sello: string;
 
     @IsNotEmpty()
     @IsString()
-    status: string;
+    tipo_sello: string;
 
+    @IsNotEmpty()
     @IsString()
-    imagen: string;
+    numero_orden: string;
+
+    @IsNotEmpty()
+    @IsString()
+    tipo_orden: string;
+
+    @IsNotEmpty()
+    imagen: any;
 
     @IsNotEmpty()
     @IsString()
     fecha: string;
-
-    @IsString()
-    @IsNotEmpty()
-    servicio: string;
-
-    @IsString()
-    @IsNotEmpty()
-    sello: string;
 
 }

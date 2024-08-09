@@ -8,33 +8,7 @@ import { Roles } from 'src/common/enums/roles.enum';
 import { ActiveUser } from 'src/common/decorators/user.decorator';
 import { User_Interface } from 'src/common/interfaces/user.interface';
 import { parse, stringify } from 'flatted';
-
-interface Medidor {
-  Direccion_medidor: string;
-  Numero_Serie: string;
-  Categoria: string;
-  usuario_correo: string;
-  status?: string;
-  fecha: string;
-  imagen: string;
-  servicio?: string;
-  sello?: string;
-}
-
-interface imagen {
-  imagen: string;
-
-}
-
-interface Medidor_Actualizar {
-  status?: string;
-}
-
-interface guardar_Imagen {
-  imagen: string;
-  numeroserie: string;
-}
-
+import { sellos, informacion_completa, medidor } from 'src/common/interfaces/medidores.interface';
 @Auth(Roles.USUARIO)
 @Controller('medidores')
 export class MedidoresTempController {
@@ -42,26 +16,7 @@ export class MedidoresTempController {
 
   @Post()
   async create(@Body() createMedidoresTempDto: CreateMedidoresTempDto, @ActiveUser() user: User_Interface){
-
-    const medidor: Medidor = {
-      Direccion_medidor: createMedidoresTempDto.Direccion_medidor,
-      Numero_Serie: createMedidoresTempDto.Numero_Serie,
-      Categoria: createMedidoresTempDto.Categoria,
-      usuario_correo: user.identificador,
-      status: createMedidoresTempDto.status,
-      imagen: createMedidoresTempDto.imagen,
-      fecha: createMedidoresTempDto.fecha,
-      servicio: createMedidoresTempDto.servicio,
-      sello: createMedidoresTempDto.sello
-    }
-  
-    return this.medidoresTempService.create(medidor, user);
-  }
-
-  @Post('almacenar_fotos')
-  async almacenar_fotos(@Body() datos: any, @ActiveUser() user: User_Interface) {
-    const imagenString = stringify(datos.imagen);
-    return this.medidoresTempService.almacenarfotos(datos.datos.imagen, datos.datos.numeroserie, user);
+    return this.medidoresTempService.create(createMedidoresTempDto, user);
   }
 
   @Get()
@@ -81,10 +36,8 @@ export class MedidoresTempController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMedidoresTempDto: UpdateMedidoresTempDto, @ActiveUser() user: User_Interface) {
-    const medidor: Medidor_Actualizar = {
-      status: 'Revisado'
-    }
-    return this.medidoresTempService.update(id, medidor, user);
+
+    return this.medidoresTempService.update(id, updateMedidoresTempDto, user);
   }
 
   @Delete(':id')

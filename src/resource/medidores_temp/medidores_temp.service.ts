@@ -9,12 +9,9 @@ import { MedidoresTemp } from './entities/medidores_temp.entity';
 import { TransaccionService } from 'src/common/transaction/transaccion.service';
 import { Tipo_Transaccion } from 'src/common/enums/tipo_Transaccion.enum';
 import * as moment from 'moment-timezone';
-
-interface Medidor {
-  Direccion_medidor: string;
-  Numero_Serie: string;
-  Categoria: string;
-}
+import { sellos, informacion_completa, medidor } from 'src/common/interfaces/medidores.interface';
+import { Medidor } from '../medidor/entities/medidor.entity';
+import { Sello } from '../sellos/entities/sello.entity';
 
 @Injectable()
 export class MedidoresTempService {
@@ -22,30 +19,45 @@ export class MedidoresTempService {
   constructor(
     @InjectRepository(MedidoresTemp)
     private medidoresRepository: Repository<MedidoresTemp>,
+    @InjectRepository(Medidor)
+    private medidorRepository: Repository<Medidor>,
+    @InjectRepository(Sello)
+    private selloRepository: Repository<Sello>,
     private transaccionService: TransaccionService
   ) { }
 
-  async create(createMedidoresTempDto: any, user: User_Interface) {
-
+  async registrar_medidor(medidores: medidor, user: User_Interface) {
     validateAll(user);
-
-    return await this.medidoresRepository.save(createMedidoresTempDto);
+    const registrar: any = await this.transaccionService.transaction(Tipo_Transaccion.Guardar, MedidoresTemp, medidores);
   }
 
-  async almacenarfotos(imagen: any, numeroserie: string, user: User_Interface) {
+  async create(createMedidoresTempDto: CreateMedidoresTempDto, user: User_Interface) {
 
     validateAll(user);
 
-    const correo = user.identificador;
-    let medidor = await this.medidoresRepository
-      .createQueryBuilder('medidores_temp')
-      .where('LOWER(medidores_temp.usuario_correo) = LOWER(:correo)', { correo })
-      .andWhere('(medidores_temp.Numero_Serie) = (:numeroserie)', { numeroserie })
-      .getOne();
+    const verificar_Medidor: any = await this.medidorRepository.createQueryBuilder('medidor')
+    .where('LOWER(medidor.numero_medidor) = LOWER(:numero_medidor)', {numero_medidor: createMedidoresTempDto.numero_medidor})
+    .getOne();
 
-    const identificador = (medidor.id).toString();
+    if (verificar_Medidor === undefined || verificar_Medidor === null || verificar_Medidor == "") {
+      return {
+        status: 400,
+        message: 'El medidor no existe en la base de datos'
+      }
+    }
 
-    const resultado: any = await this.transaccionService.transaction(Tipo_Transaccion.Actualizar_Con_Parametros, MedidoresTemp, imagen, 'imagen', identificador);
+    const verificar_Sello: any = await this.selloRepository.createQueryBuilder('sello')
+    .where('LOWER(sello.numero_sello) = LOWER(:numero_sello)', {numero_sello: createMedidoresTempDto.numero_sello})
+    .getOne();
+
+    if (verificar_Sello === undefined || verificar_Sello === null || verificar_Sello == "") {
+      return {
+        status: 400,
+        message: 'El sello no existe en la base de datos'
+      }
+    }
+
+    const resultado: any = await this.transaccionService.transaction(Tipo_Transaccion.Guardar, MedidoresTemp, createMedidoresTempDto);
 
     if (resultado.mensaje === 'Éxito') {
       return {
@@ -58,7 +70,6 @@ export class MedidoresTempService {
         message: 'Ha ocurrido un error, intentelo de nuevo'
       }
     }
-
   }
 
   async findAll(user: User_Interface) {
@@ -68,15 +79,11 @@ export class MedidoresTempService {
       timeZone: 'America/Mexico_City'
     });
 
-    // Separa la fecha y la hora
     const [datePart, timePart] = nDate.split(', ');
-
-    // Separa el mes, día y año de la parte de la fecha
     const [month, day, year] = datePart.split('/');
-
     const fecha = `${day}/${month}/${year}`;
-
     const correo = user.identificador;
+
     let medidor = await this.medidoresRepository
       .createQueryBuilder('medidores_temp')
       .where('LOWER(medidores_temp.usuario_correo) = LOWER(:correo)', { correo })
