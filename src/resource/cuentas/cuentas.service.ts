@@ -42,8 +42,6 @@ export class CuentasService {
       .where('LOWER(cuenta.cuenta_Identificador) = LOWER(:identificador)', { identificador })
       .getOne();
 
-    console.log(buscar_cuenta)
-
     if (buscar_cuenta) {
       let cuenta = {
         cuenta_ID: buscar_cuenta.id_Cuenta,
@@ -194,14 +192,11 @@ export class CuentasService {
   }
 
   async registrar_codigo(codigo: string, identificador: string) {
-    console.log(identificador, "1")
 
     const cuentaUsuario = await this.cuentaRepository
       .createQueryBuilder('cuenta')
       .where('LOWER(cuenta.cuenta_Identificador) = LOWER(:identificador)', { identificador })
       .getOne();
-
-    console.log(cuentaUsuario, "22");
 
     if (!cuentaUsuario || cuentaUsuario == undefined || cuentaUsuario == null) {
       return {
@@ -210,7 +205,6 @@ export class CuentasService {
       }
     } else {
       const cuenta_ID: any = cuentaUsuario.id_Cuenta;
-      console.log(codigo);
       const codigo_encriptado = await bcrypt.hash(codigo, 10);
 
       let resultado = await this.transaccionService.transaction(Tipo_Transaccion.Actualizar_Con_Parametros, Cuenta, codigo_encriptado, 'cuenta_Codigo_Recuperacion', cuenta_ID);
@@ -236,8 +230,6 @@ export class CuentasService {
       .createQueryBuilder('cuenta')
       .where('LOWER(cuenta.cuenta_Identificador) = LOWER(:identificador)', { identificador })
       .getOne();
-
-    console.log(cuentaUsuario);
 
     if (!cuentaUsuario || cuentaUsuario == null || cuentaUsuario == undefined) {
       return {

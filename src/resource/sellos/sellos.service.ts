@@ -4,6 +4,8 @@ import { UpdateSelloDto } from './dto/update-sello.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Sello } from './entities/sello.entity';
+import { User_Interface } from 'src/common/interfaces/user.interface';
+import { validateAll } from 'src/auth/guard/validateRole.guard';
 
 @Injectable()
 export class SellosService {
@@ -13,15 +15,21 @@ export class SellosService {
     private selloRepository: Repository<Sello>,
   ) { }
 
-  create(createSelloDto: CreateSelloDto) {
-    return this.selloRepository.save(createSelloDto);
+  async create(createSelloDto: CreateSelloDto, user: User_Interface) {
+
+    validateAll(user);
+    return await this.selloRepository.save(createSelloDto);
   }
 
-  findAll() {
+  findAll(user: User_Interface) {
+
+    validateAll(user);
     return this.selloRepository.find();
   }
 
-  findOne(id: number) {
+  findOne(id: number, user: User_Interface) {
+
+    validateAll(user);
     return this.selloRepository.findOneById(id);
   }
 
@@ -29,7 +37,9 @@ export class SellosService {
     return `This action updates a #${id} sello`;
   }
 
-  remove(id: number) {
-    return this.selloRepository.delete(id);
+  async remove(id: number, user: User_Interface) {
+
+    validateAll(user);
+    return await this.selloRepository.delete(id);
   }
 }

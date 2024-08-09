@@ -124,7 +124,6 @@ export class AuthService {
     }
 
     const contraseña2 = cuenta.cuenta.cuenta_Contraseña;
-    console.log(cuenta.usuario)
     const usuario = cuenta.usuario.usuario_Nombre + ' ' + cuenta.usuario.usuario_Apellidos;
 
     if ( contraseña2 != null && await bcrypt.compare(contraseña, contraseña2) == false) {
