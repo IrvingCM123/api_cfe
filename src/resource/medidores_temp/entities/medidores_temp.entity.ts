@@ -1,37 +1,39 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { Medidores } from 'src/common/enums/medidores.enum';
 
-@Entity( 'medidores_temp' )
+@Entity('medidores_temp')
 export class MedidoresTemp {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({ nullable: false })
+  numero_medidor: string;
 
-    @Column( {nullable: false} )
-    Direccion_medidor: string;
+  @Column({ nullable: false })
+  tipo_medidor: string;
 
-    @Column()
-    Numero_Serie: string;
+  @Column({ nullable: false })
+  numero_sello: string;
 
-    @Column({ nullable: false, type: 'enum', enum: Medidores })
-    Categoria: string;
+  @Column({ nullable: false })
+  tipo_sello: string;
 
-    @Column()
-    usuario_correo: string;
+  @Column({ nullable: false })
+  numero_orden: string;
 
-    @Column({default: 'Pendiente'})
-    status: string;
+  @Column({ nullable: false })
+  tipo_orden: string;
 
-    @Column('text')
-    imagen: Buffer;
+  @Column({ nullable: false })
+  direccion: string;
 
-    @Column()
-    fecha: string;
+  @Column('text')
+  imagen: Buffer;
 
-    @Column()
-    servicio: string;
+  @Column({ nullable: false })
+  fecha: string;
 
-    @Column()
-    sello: string;
-    
+  @Column()
+  cuenta: string;
+  
 }

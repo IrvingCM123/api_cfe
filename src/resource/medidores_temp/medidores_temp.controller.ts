@@ -29,6 +29,11 @@ export class MedidoresTempController {
     return this.medidoresTempService.consultar_Informacion(user);
   }
 
+  @Get('consultar_informacion_adicional')
+  consultar_Informacion_Adicional(@ActiveUser() user: User_Interface) {
+    return this.medidoresTempService.consultar_informacion_adicional(user);
+  }
+
   @Get('buscar/:id')
   findOne(@Param('id') id: string, @ActiveUser() user: User_Interface) {
     return this.medidoresTempService.findOne(id, user);

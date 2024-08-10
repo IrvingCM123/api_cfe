@@ -12,4 +12,7 @@ export class Sello {
     @Column({ nullable: false })
     tipo_sello: string;
 
+    @Column({ nullable: true })
+    cuenta: string;
+
 }

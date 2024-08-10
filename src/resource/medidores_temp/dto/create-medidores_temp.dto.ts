@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsEmpty } from 'class-validator';
 
 export class CreateMedidoresTempDto {
 
@@ -27,10 +27,17 @@ export class CreateMedidoresTempDto {
     tipo_orden: string;
 
     @IsNotEmpty()
+    @IsString()
+    direccion: string;
+
+    @IsNotEmpty()
     imagen: any;
 
     @IsNotEmpty()
     @IsString()
     fecha: string;
+
+    @IsEmpty()
+    cuenta: string | null;
 
 }

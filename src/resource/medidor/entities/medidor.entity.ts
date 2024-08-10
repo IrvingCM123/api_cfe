@@ -12,4 +12,6 @@ export class Medidor {
     @Column({ nullable: false })
     tipo_medidor: string;
 
+    @Column({ nullable: true })
+    cuenta: string;
 }

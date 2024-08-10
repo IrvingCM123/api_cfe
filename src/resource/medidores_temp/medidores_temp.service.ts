@@ -28,8 +28,7 @@ export class MedidoresTempService {
 
   async registrar_medidor(medidores: medidor, user: User_Interface) {
     validateAll(user);
-    const registrar: any = await this.transaccionService.transaction(Tipo_Transaccion.Guardar, MedidoresTemp, medidores);
-  }
+  } 
 
   async create(createMedidoresTempDto: CreateMedidoresTempDto, user: User_Interface) {
 
@@ -57,9 +56,14 @@ export class MedidoresTempService {
       }
     }
 
+    createMedidoresTempDto.cuenta = user.identificador;
+
     const resultado: any = await this.transaccionService.transaction(Tipo_Transaccion.Guardar, MedidoresTemp, createMedidoresTempDto);
 
     if (resultado.mensaje === 'Éxito') {
+      await this.transaccionService.transaction(Tipo_Transaccion.Eliminar_Con_Parametros, Medidor, '', 'id_Medidor', verificar_Medidor.id_Medidor);
+      await this.transaccionService.transaction(Tipo_Transaccion.Eliminar_Con_Parametros, Sello, '', 'id_Sello', verificar_Sello.id_Sello);
+
       return {
         status: 201,
         message: 'Se ha actualizado la imagen del medidor'
@@ -100,11 +104,23 @@ export class MedidoresTempService {
     const correo = user.identificador;
     let medidor = await this.medidoresRepository
       .createQueryBuilder('medidores_temp')
-      .where('LOWER(medidores_temp.usuario_correo) = LOWER(:correo)', { correo })
-      .andWhere('(medidores_temp.status) = (:status)', { status: 'Revisado' })
+      .where('LOWER(medidores_temp.cuenta) = LOWER(:correo)', { correo })
       .getMany();
 
     return medidor;
+  }
+
+  async consultar_informacion_adicional(user: User_Interface) {
+    validateAll(user);
+
+    const correo = user.identificador;
+    const medidor = await this.medidorRepository.createQueryBuilder('medidor').where('LOWER(medidor.cuenta) = LOWER(:correo)', { correo }).getMany();
+    const sellos = await this.selloRepository.createQueryBuilder('sello').where('LOWER(sello.cuenta) = LOWER(:correo)', { correo }).getMany();
+
+    return {
+      medidores: medidor,
+      sellos: sellos
+    }
   }
 
   async findOne(id: string, user: User_Interface) {
@@ -112,8 +128,8 @@ export class MedidoresTempService {
     const correo = user.identificador;
     let medidor = await this.medidoresRepository
       .createQueryBuilder('medidores_temp')
-      .where('LOWER(medidores_temp.usuario_correo) = LOWER(:correo)', { correo })
-      .andWhere('(medidores_temp.Numero_Serie) = (:id)', { id })
+      .where('LOWER(medidores_temp.cuenta) = LOWER(:correo)', { correo })
+      .andWhere('(medidores_temp.numero_orden) = (:id)', { id })
       .getOne();
     return medidor;
   }

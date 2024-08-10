@@ -9,6 +9,7 @@ export interface informacion_completa {
     numero_orden: string;
     tipo_orden: string;
     imagen: string;
+    fecha: string;
 }
 
 export interface sellos {
